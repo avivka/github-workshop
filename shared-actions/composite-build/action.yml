@@ -1,0 +1,23 @@
+name: 'Standardized Docker Build'
+description: 'Builds a Docker image using a consistent pattern'
+inputs:
+  image_name:
+    description: 'Name of the image to build'
+    required: true
+  context:
+    description: 'Docker build context'
+    required: false
+    default: '.'
+  dockerfile:
+    description: 'Path to Dockerfile'
+    required: false
+    default: 'Dockerfile'
+
+runs:
+  using: "composite"
+  steps:
+    - name: Build Docker Image
+      shell: bash
+      run: |
+        echo "Building image ${{ inputs.image_name }} from ${{ inputs.dockerfile }}..."
+        docker build -t ${{ inputs.image_name }}:latest -f ${{ inputs.dockerfile }} ${{ inputs.context }}

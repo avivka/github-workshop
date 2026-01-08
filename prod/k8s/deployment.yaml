@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: workshop-app-prod
+  namespace: production
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: workshop-app
+  template:
+    metadata:
+      labels:
+        app: workshop-app
+    spec:
+      containers:
+      - name: workshop-app
+        image: workshop-app:latest
+        ports:
+        - containerPort: 5000
+        envFrom:
+        - configMapRef:
+            name: app-config-prod

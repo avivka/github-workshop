@@ -1,0 +1,35 @@
+name: Create Repo from Template
+
+on:
+  workflow_dispatch:
+    inputs:
+      new_repo_name:
+        description: 'Name of the new repository'
+        required: true
+      template_repo:
+        description: 'Template repository name (e.g., my-template)'
+        required: true
+
+jobs:
+  provision-repo:
+    runs-on: ubuntu-latest
+    env:
+      GITHUB_TOKEN: ${{ secrets.GH_PAT }} # Requires a PAT with repo creation permissions
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+
+      - name: Terraform Init
+        working-directory: ./terraform
+        run: terraform init
+
+      - name: Terraform Apply
+        working-directory: ./terraform
+        run: |
+          terraform apply -auto-approve \
+            -var="repo_name=${{ inputs.new_repo_name }}" \
+            -var="template_owner=${{ github.repository_owner }}" \
+            -var="template_repo=${{ inputs.template_repo }}"

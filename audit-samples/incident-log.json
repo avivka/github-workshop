@@ -1,0 +1,60 @@
+[
+  {
+    "timestamp": 1736287200000,
+    "action": "repo.create",
+    "actor": "dev-intern",
+    "repo": "workshop-app",
+    "visibility": "private",
+    "ip_address": "192.168.1.100"
+  },
+  {
+    "timestamp": 1736290800000,
+    "action": "org.add_member",
+    "actor": "admin-user",
+    "user": "dev-intern",
+    "role": "member",
+    "ip_address": "10.0.0.5"
+  },
+  {
+    "timestamp": 1736334000000,
+    "action": "protected_branch.create",
+    "actor": "admin-user",
+    "repo": "workshop-app",
+    "branch": "main",
+    "ip_address": "10.0.0.5"
+  },
+  {
+    "timestamp": 1736420400000,
+    "action": "repo.change_visibility",
+    "actor": "dev-intern",
+    "repo": "workshop-app",
+    "from": "private",
+    "to": "public",
+    "ip_address": "192.168.1.100"
+  },
+  {
+    "timestamp": 1736420405000,
+    "action": "git.push",
+    "actor": "dev-intern",
+    "repo": "workshop-app",
+    "ref": "refs/heads/feature-login",
+    "ip_address": "192.168.1.100"
+  },
+  {
+    "timestamp": 1736420500000,
+    "action": "repo.change_visibility",
+    "actor": "admin-user",
+    "repo": "workshop-app",
+    "from": "public",
+    "to": "private",
+    "ip_address": "10.0.0.5"
+  },
+  {
+    "timestamp": 1736420510000,
+    "action": "org.remove_member",
+    "actor": "admin-user",
+    "user": "dev-intern",
+    "reason": "security_violation",
+    "ip_address": "10.0.0.5"
+  }
+]

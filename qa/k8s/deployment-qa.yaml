@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: workshop-app-qa
+  namespace: qa
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: workshop-app
+  template:
+    metadata:
+      labels:
+        app: workshop-app
+    spec:
+      containers:
+      - name: workshop-app
+        image: workshop-app:qa-latest
+        ports:
+        - containerPort: 5000
+        envFrom:
+        - configMapRef:
+            name: app-config-qa

@@ -1,0 +1,43 @@
+name: Reusable Build Pipeline
+
+on:
+  workflow_call:
+    inputs:
+      python-version:
+        required: false
+        type: string
+        default: '3.11'
+      run-tests:
+        required: false
+        type: boolean
+        default: true
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ inputs.python-version }}
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          if [ -f app/requirements.txt ]; then pip install -r app/requirements.txt; fi
+          pip install requests pytest
+
+      - name: Run unit tests
+        if: ${{ inputs.run-tests }}
+        run: |
+          pytest qa/tests/test_api.py || python qa/tests/test_api.py
+
+      - name: Build Docker Image (using local action)
+        uses: ./.github/../shared-actions/composite-build
+        with:
+          image_name: 'workshop-app'
+          dockerfile: 'app/Dockerfile'
+          context: 'app/'
